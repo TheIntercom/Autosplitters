@@ -33,7 +33,7 @@ startup
 	settings.Add("P2", true, "Postal 2 (5022) -> Regular gamemode, Monday through Friday");
 	settings.Add("P2_257", true, "Autosplit at the end of each day", "P2");
 
-	settings.Add("AW", false, "Apocalpyse Weekend (5022) -> Expansion gamemode, Saturday and Sunday");
+	settings.Add("AW", true, "Apocalpyse Weekend (5022) -> Expansion gamemode, Saturday and Sunday");
 	settings.SetToolTip("AW", "These will split upon completion of a map, cutscene and all, if selected");
 	settings.Add("AW_2834", true, "Hospital", "AW");
 	settings.Add("AW_1268", true, "Resturant (Lower Paradise 1)", "AW");
@@ -58,7 +58,7 @@ startup
 
 	//Paradise Lost is not that predictable when using the Map ID as a trigger due to loading a save
 	//altering this value in (generally) unpredictable ways.
-	settings.Add("PL", false, "Paradise Lost (5022) -> Expansion gamemode, Monday through Friday");
+	settings.Add("PL", true, "Paradise Lost (5022) -> Expansion gamemode, Monday through Friday");
 	settings.Add("PL_EndOfDay", true, "Autosplit at the end of each day", "PL");
 }
 
