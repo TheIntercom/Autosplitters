@@ -39,7 +39,9 @@ startup
 	settings.Add("AW_1268", true, "Resturant (Lower Paradise 1)", "AW");
 	settings.Add("AW_3030", true, "Cow Pasture", "AW");
 	settings.Add("AW_2742", false, "Bullfish Interactive Opens (Lower Paradise 2)", "AW");
-	settings.Add("AW_620", true, "Bullfish Interactive (Boss: Phraud)", "AW");
+	settings.Add("AW_5520", true, "Bullfish Interactive (Boss: Phraud)", "AW");
+	settings.Add("AW_534", true, "Vince's House", "AW");
+	settings.Add("AW_620", true, "Elephant Preserve", "AW");
 	settings.Add("AW_1248", false, "Entering Training Camp Part 1", "AW");
 	settings.Add("AW_4086", false, "Entering Training Camp Part 2", "AW");
 	settings.Add("AW_4040", false, "Entering Training Camp Part 3", "AW");
