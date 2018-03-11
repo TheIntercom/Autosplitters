@@ -9,9 +9,11 @@
 // this script should prevent that from mattering for Postal 2 and Apocalypse Weekend, but still remains
 // a problem for Paradise Lost.  For Paradise Lost, reloading a save on the Zombie Church Escape or the first 
 // Bitch Fight will cause the autosplitter to break for that day.
+// Paradise Lost has been crashing a lot, there are various ways to handle this.
 
 // ToDo:
 // Find a method of determining the day without relying on the "MapID" (This will allow people to load saves on the triggering maps)
+// Add crash detection (It's rare in P2 or AW in my experience, PL is a little rougher around the edges still)
 
 state("Postal2", "5022")
 {
@@ -36,7 +38,7 @@ startup
 	settings.Add("AW", true, "Apocalpyse Weekend (5022) -> Expansion gamemode, Saturday and Sunday");
 	settings.SetToolTip("AW", "These will split upon completion of a map, cutscene and all, if selected");
 	settings.Add("AW_2834", true, "Hospital", "AW");
-	settings.Add("AW_1268", true, "Resturant (Lower Paradise 1)", "AW");
+	settings.Add("AW_1268", true, "Restaurant  (Lower Paradise 1)", "AW");
 	settings.Add("AW_3030", true, "Cow Pasture", "AW");
 	settings.Add("AW_2742", false, "Bullfish Interactive Opens (Lower Paradise 2)", "AW");
 	settings.Add("AW_5520", true, "Bullfish Interactive (Boss: Phraud)", "AW");
