@@ -10,6 +10,7 @@
 // a problem for Paradise Lost.  For Paradise Lost, reloading a save on the Zombie Church Escape or the first 
 // Bitch Fight will cause the autosplitter to break for that day.
 // Paradise Lost has been crashing a lot, there are various ways to handle this.
+// Discord seems to throw a wrench in the load remover, causing it to behave save or lose time, depending on the computer.  Back to square one.
 
 // ToDo:
 // Find a method of determining the day without relying on the "MapID" (This will allow people to load saves on the triggering maps)
@@ -29,6 +30,10 @@ state("ParadiseLost", "5022")
 
 startup
 {
+	settings.Add("experimentalSettings", false, "[EXPERIMENTAL]");
+	settings.Add("loadRemoval", false, "Remove Load Times", "experimentalSettings");
+	settings.SetToolTip("loadRemoval", "My old method has proven to be faulty, until it is fixed it will remain for testing purposes");
+
 	//These numbers are based on the Map ID we are going INTO.  So for Postal 2, at the end of each day
 	//we go to a cutscene map with value 257.  For Apocalypse Weekend we go from the Hospital (6190) to
 	//Lower Paradise 1 (2834), from Lower Paradise 1 we go to Cow Pasture (1268), etc.
@@ -48,7 +53,6 @@ startup
 	settings.Add("AW_4086", false, "Entering Training Camp Part 2", "AW");
 	settings.Add("AW_4040", false, "Entering Training Camp Part 3", "AW");
 	settings.Add("AW_3513", false, "Inside Training Camp", "AW");
-
 	settings.Add("AW_2089", false, "Escape Training Camp (Inside)", "AW");
 	settings.Add("AW_2094", true, "Escape Training Camp (Outside)", "AW");
 	settings.Add("AW_2979", false, "Military Base Part 1", "AW");
@@ -124,5 +128,9 @@ reset
 
 isLoading
 {
-	return (old.isLoading == current.isLoading);
+	//Just hacking this in so people can use the load remover if they still want to do their own testing.
+	//As of March 23rd, 2018 we aren't using this feature since Discord interacts with it really awkwardly.
+	if (settings["loadRemoval"]) {
+		return (old.isLoading == current.isLoading);
+	}
 }
