@@ -19,6 +19,8 @@
 state("Postal2", "5022")
 {
 	int isLoading : "Engine.dll", 0x6394EC, 0x228;
+	double isLoadingExperimental : "Engine.dll", 0x6394EC, 0x33C, 0x664, 0x40C, 0xD0;
+
 	int currentLevel : "Engine.dll", 0x6394EC, 0x340;
 }
 
@@ -30,9 +32,10 @@ state("ParadiseLost", "5022")
 
 startup
 {
-	settings.Add("experimentalSettings", false, "[EXPERIMENTAL]");
-	settings.Add("loadRemoval", false, "Remove Load Times", "experimentalSettings");
+	settings.Add("loadRemoval", false, "[Broken] Remove Load Times");
 	settings.SetToolTip("loadRemoval", "My old method has proven to be faulty, until it is fixed it will remain for testing purposes");
+	settings.Add("experimentalLoadRemoval", true, "[Experimental] Remove Load Times");
+	settings.SetToolTip("experimentalLoadRemoval", "This is a new address found by Souzooka, this option supersedes the other load remover if checked");
 
 	//These numbers are based on the Map ID we are going INTO.  So for Postal 2, at the end of each day
 	//we go to a cutscene map with value 257.  For Apocalypse Weekend we go from the Hospital (6190) to
@@ -128,6 +131,11 @@ reset
 
 isLoading
 {
+	//Souzooka found another tick address that seems promising at first glance, putting this in here for everyone to test.
+	if (settings["experimentalLoadRemoval"]) {
+		return (old.isLoadingExperimental == current.isLoadingExperimental);
+	}
+
 	//Just hacking this in so people can use the load remover if they still want to do their own testing.
 	//As of March 23rd, 2018 we aren't using this feature since Discord interacts with it really awkwardly.
 	if (settings["loadRemoval"]) {
