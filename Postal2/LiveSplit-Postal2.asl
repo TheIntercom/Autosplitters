@@ -1,6 +1,6 @@
 // Notes:
 // "Map IDs": https://docs.google.com/spreadsheets/d/1SuWLtANcimPHN2W6exS0NPclKxDseMupCYCgezw2D5w/edit#gid=0
-// Right now this script only supports the latest versions of Postal 2 and Paradise Lost (as of March 3rd, 2018).
+// Right now this script only supports the latest Steam versions of Postal 2 and Paradise Lost (as of March 3rd, 2018).
 // It might work for earlier versions but it's extremely doubtful.
 // Furthermore, the "Map IDs" might change with with version differences breaking even more functionality.
 
@@ -19,7 +19,7 @@
 state("Postal2", "5022")
 {
 	int isLoading : "Engine.dll", 0x6394EC, 0x228;
-	double isLoadingExperimental : "Engine.dll", 0x6394EC, 0x33C, 0x664, 0x40C, 0xD0;
+    int isLoadingExperimental : "D3DDrv.dll", 0x2E2CC, 0x1C, 0x1E4;
 
 	int currentLevel : "Engine.dll", 0x6394EC, 0x340;
 }
@@ -99,6 +99,9 @@ init
 				break;
 		}
 	}
+
+    vars.pauseStart = false;
+    vars.pauseEnd = false;
 }
 
 split
@@ -131,12 +134,30 @@ reset
 
 isLoading
 {
-	//Souzooka found another tick address that seems promising at first glance, putting this in here for everyone to test.
+	//Souzooka found (yet) another address that seems promising at first glance, putting this in here for everyone to test.
 	if (settings["experimentalLoadRemoval"]) {
-		return (old.isLoadingExperimental == current.isLoadingExperimental);
+        //This address stays at 0 during gameplay and is set to 2 when a load starts.
+        //It is set back to 0 at least one time before the load is finished so we pass over that values in two stages.
+	    if (current.isLoadingExperimental == 2) return true;
+
+        if (current.isLoadingExperimental > 2)
+        {
+            vars.pauseStart = true;
+        }
+        else if (vars.pauseStart && current.isLoadingExperimental == 1)
+        {
+            vars.pauseEnd = true;
+        }
+        else if (vars.pauseEnd && current.isLoadingExperimental == 0)
+        {
+            vars.pauseStart = false;
+            vars.pauseEnd = false;
+        }
+
+        return vars.pauseStart;
 	}
 
-	//Just hacking this in so people can use the load remover if they still want to do their own testing.
+	//Just sticking this in so people can use the load remover if they still want to do their own testing.
 	//As of March 23rd, 2018 we aren't using this feature since Discord interacts with it really awkwardly.
 	if (settings["loadRemoval"]) {
 		return (old.isLoading == current.isLoading);
