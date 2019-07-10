@@ -1,22 +1,20 @@
 // Notes:
 // "Map IDs": https://docs.google.com/spreadsheets/d/1SuWLtANcimPHN2W6exS0NPclKxDseMupCYCgezw2D5w/edit#gid=0
 // Right now this script only supports the latest Steam versions of Postal 2 and Paradise Lost (as of March 3rd, 2018).
-// It might work for earlier versions but it's extremely doubtful.
-// Furthermore, the "Map IDs" might change with with version differences breaking even more functionality.
 
 // Known Bugs:
-// Loading a save messes with the "Map ID" (currentLevel) in unpredictable ways.  The way that I've made
-// this script should prevent that from mattering for Postal 2 and Apocalypse Weekend, but still remains
-// a problem for Paradise Lost.  For Paradise Lost, reloading a save on the Zombie Church Escape or the first 
+// Loading a save messes with the "Map ID" (currentLevel) in unpredictable ways.
+// For Paradise Lost, reloading a save on the Zombie Church Escape or the first 
 // Bitch Fight will cause the autosplitter to break for that day.
 // Paradise Lost has been crashing a lot, there are various ways to handle this.
-// Discord seems to throw a wrench in the load remover, causing it to behave save or lose time, depending on the computer.  Back to square one.
+// Discord seems to throw a wrench in the load remover, causing it to behave save
+// or lose time, depending on the computer.  Back to square one.
 
 // ToDo:
 // Find a method of determining the day without relying on the "MapID" (This will allow people to load saves on the triggering maps)
 // Add crash detection (It's rare in P2 or AW in my experience, PL is a little rougher around the edges still)
 
-state("Postal2", "5022")
+state("Postal2")
 {
 	int isLoading : "Engine.dll", 0x6394EC, 0x228;
     int isLoadingExperimental : "D3DDrv.dll", 0x2E2CC, 0x1C, 0x1E4;
@@ -24,7 +22,7 @@ state("Postal2", "5022")
 	int currentLevel : "Engine.dll", 0x6394EC, 0x340;
 }
 
-state("ParadiseLost", "5022")
+state("ParadiseLost")
 {
 	int isLoading : "Core.dll", 0xF7F24, 0x68;
 	int currentLevel : "Core.dll", 0xF7F24, 0x180;
@@ -40,10 +38,10 @@ startup
 	//These numbers are based on the Map ID we are going INTO.  So for Postal 2, at the end of each day
 	//we go to a cutscene map with value 257.  For Apocalypse Weekend we go from the Hospital (6190) to
 	//Lower Paradise 1 (2834), from Lower Paradise 1 we go to Cow Pasture (1268), etc.
-	settings.Add("P2", true, "Postal 2 (5022) -> Regular gamemode, Monday through Friday");
+	settings.Add("P2", true, "Postal 2 -> Regular gamemode, Monday through Friday");
 	settings.Add("P2_257", true, "Autosplit at the end of each day", "P2");
 
-	settings.Add("AW", true, "Apocalpyse Weekend (5022) -> Expansion gamemode, Saturday and Sunday");
+	settings.Add("AW", true, "Apocalpyse Weekend -> Expansion gamemode, Saturday and Sunday");
 	settings.SetToolTip("AW", "These will split upon completion of a map, cutscene and all, if selected");
 	settings.Add("AW_2834", true, "Hospital", "AW");
 	settings.Add("AW_1268", true, "Restaurant  (Lower Paradise 1)", "AW");
@@ -69,37 +67,12 @@ startup
 
 	//Paradise Lost is not that predictable when using the Map ID as a trigger due to loading a save
 	//altering this value in (generally) unpredictable ways.
-	settings.Add("PL", true, "Paradise Lost (5022) -> Expansion gamemode, Monday through Friday");
+	settings.Add("PL", true, "Paradise Lost -> Expansion gamemode, Monday through Friday");
 	settings.Add("PL_EndOfDay", true, "Autosplit at the end of each day", "PL");
 }
 
 init
 {
-	//Postal 2 and Paradise Lost happen to be the same exe for their latest version (5022)
-	//This wasn't always the case and both have had exclusive versions (and thus, module sizes)
-	int moduleSize = modules.First().ModuleMemorySize;
-	if (game.ProcessName == "Postal2") {
-		switch (moduleSize) {
-			case 397312:
-				version = "5022";
-				break;
-			default:
-				print("[Postal 2] Unknown version");
-				break;
-		}
-	}
-
-	if (game.ProcessName == "ParadiseLost") {
-		switch (moduleSize) {
-			case 397312:
-				version = "5022";
-				break;
-			default:
-				print("[Postal 2] Unknown version");
-				break;
-		}
-	}
-
     vars.pauseStart = false;
     vars.pauseEnd = false;
 }
