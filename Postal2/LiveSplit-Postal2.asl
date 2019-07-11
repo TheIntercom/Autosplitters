@@ -36,10 +36,10 @@ startup
 	settings.SetToolTip("experimentalLoadRemoval", "This is a new address found by Souzooka, this option supersedes the other load remover if checked");
 
 	//These numbers are based on the Map ID we are going INTO.  So for Postal 2, at the end of each day
-	//we go to a cutscene map with value 257.  For Apocalypse Weekend we go from the Hospital (6190) to
+	//we go to a cutscene map with value 258.  For Apocalypse Weekend we go from the Hospital (6190) to
 	//Lower Paradise 1 (2834), from Lower Paradise 1 we go to Cow Pasture (1268), etc.
 	settings.Add("P2", true, "Postal 2 -> Regular gamemode, Monday through Friday");
-	settings.Add("P2_257", true, "Autosplit at the end of each day", "P2");
+	settings.Add("P2_258", true, "Autosplit at the end of each day", "P2");
 
 	settings.Add("AW", true, "Apocalpyse Weekend -> Expansion gamemode, Saturday and Sunday");
 	settings.SetToolTip("AW", "These will split upon completion of a map, cutscene and all, if selected");
@@ -80,7 +80,7 @@ init
 split
 {
 	//We get placed on the same map at the end of every day so we just check for that.
-	if (settings["P2_257"] && (old.currentLevel != 257 && current.currentLevel == 257))
+	if (settings["P2_258"] && (old.currentLevel != 258 && current.currentLevel == 258))
 		return true;
 
 	//This gamemode is very linear so we (more or less) just check if we moved to a new map.
