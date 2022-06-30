@@ -1,6 +1,7 @@
 // Notes:
 // manually going backwards to another level will also trigger the autosplitter
-// loading a save for a stage you are not on breaks the ingame timer, which breaks this
+// loading a save for a stage you are not on breaks the ingame timer, which breaks this until you go to main menu or load a good save
+// while theres basic support for starting chapter runs, i dont actually detect the first or second boss yet so it splits weird
 
 state("POSTAL Brain Damaged")
 {
@@ -31,10 +32,13 @@ split {
 	// no episodeId check here to support chapter runs
 	if ((current.levelId == 0) && (old.levelId != 4)) return false;
 
+	// health check is to prevent a fake split from losing all of your health
+	if (current.playerHealth < 0) return false;
+
 	// basic final boss check
-	// if the timer actually stops (finish the level, die, load a save, or go back to the main menu) when youre playing the final stage, split
+	// if you finish the final stage, split
 	// ill find a better way to do this lmao
-	if ((current.episodeId == 2) && (current.levelId == 4) && (current.doCount == false) && (current.time == old.time) && (current.time != 0) && (current.playerHealth < 0)) return true;
+	if ((current.episodeId == 2) && (current.levelId == 4) && (current.doCount == false) && (current.time == old.time) && (current.time != 0)) return true;
 
 	// split when the new level finishes loading
 	return ((current.episodeId != old.episodeId) || (current.levelId != old.levelId));
