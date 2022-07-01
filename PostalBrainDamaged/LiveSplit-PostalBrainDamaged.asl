@@ -14,9 +14,18 @@ state("POSTAL Brain Damaged")
 }
 
 start {
-	// this only triggers when the timer isnt running so we dont have to worry about anything weird
+	// this only triggers when the timer isnt running so logic is a little loose
+	// if we start the first stage in a chapter and we came from the main menu
 	// no episodeId check here to support chapter runs
 	if ((current.levelId == 0) && (old.timePtr == 0) && (current.timePtr != old.timePtr)) return true;
+}
+
+reset {
+	// if we start the first stage in a chapter and the episode number doesnt move forward then we can probably reset
+	if ((current.levelId == 0) && (old.levelId != 0) && (current.episodeId <= old.episodeId)) return true;
+
+	// if we re-select the first stage in a chapter and we came from the main menu
+	if ((current.levelId == 0) && (old.levelId == 0) && (old.timePtr == 0) && (current.timePtr != old.timePtr)) return true;
 }
 
 isLoading {
