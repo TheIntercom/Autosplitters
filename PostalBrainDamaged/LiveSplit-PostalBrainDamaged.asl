@@ -3,14 +3,20 @@
 // loading a save for a stage you are not on breaks the ingame timer, which breaks this until you go to main menu or load a good save
 // while theres basic support for starting chapter runs, i dont actually detect the first or second boss yet so it splits weird
 
+// ToDo:
+// change the autosplit behavior so it triggers when the level is over instead of when the next one finishes loading
+// add checks for karen and sip (if we cant get the above behavior sorted)
+// load removal that ONLY removes load times, right now it also pauses between stages
+// im not sure how this thing handles crashing so ill just leave this pin here until i get a better idea
+
 state("POSTAL Brain Damaged")
 {
-	long timePtr : "GameAssembly.dll", 0x026F7EA0, 0xB8, 0x20, 0x78, 0x10;
-	bool doCount : "GameAssembly.dll", 0x026F7EA0, 0xB8, 0x20, 0x78, 0x50;
-	double time : "GameAssembly.dll", 0x026F7EA0, 0xB8, 0x20, 0x78, 0x54;
-	int levelId : "GameAssembly.dll", 0x026F7EA0, 0xB8, 0x20, 0x40, 0x30;
-	int episodeId : "GameAssembly.dll", 0x026F7EA0, 0xB8, 0x20, 0x40, 0x38, 0x30;
-	float playerHealth : "GameAssembly.dll", 0x026F7EA0, 0xB8, 0x20, 0x50, 0x70, 0x290, 0x98, 0x1C;
+	long timePtr : "GameAssembly.dll", 0x0270DCD0, 0xB8, 0x28, 0x78, 0x10;
+	bool doCount : "GameAssembly.dll", 0x0270DCD0, 0xB8, 0x28, 0x78, 0x50;
+	double time : "GameAssembly.dll", 0x0270DCD0, 0xB8, 0x28, 0x78, 0x54;
+	int levelId : "GameAssembly.dll", 0x0270DCD0, 0xB8, 0x28, 0x40, 0x30;
+	int episodeId : "GameAssembly.dll", 0x0270DCD0, 0xB8, 0x28, 0x40, 0x38, 0x30;
+	float playerHealth : "GameAssembly.dll", 0x0270DCD0, 0xB8, 0x28, 0x50, 0x70, 0x290, 0x98, 0x1C;
 }
 
 start {
